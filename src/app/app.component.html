@@ -2,12 +2,15 @@
   <mat-sidenav-content>
     <form [formGroup]="myForm" (ngSubmit)="submitForm()" novalidate>
       <!-- Name -->
-      <mat-form-field class="example-full-width">
+      <mat-form-field >
         <input matInput placeholder="Type the name" formControlName="name" >
+        <mat-error *ngIf="erroHandling('name', 'required')">
+          You must provide <strong>name</strong>
+        </mat-error>
       </mat-form-field>
 
       <!-- Email -->
-      <mat-form-field class="example-full-width">
+      <mat-form-field >
         <input matInput placeholder="Type the Email" formControlName="email">
       </mat-form-field>
 
@@ -23,28 +26,34 @@
 
       <!-- Date-picker -->
       <mat-form-field>
-        <input matInput readonly [matDatepicker]="picker"  placeholder="Date of birth" formControlName="dob" (dateChange)="date($event)">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> 
+        <input matInput readonly [matDatepicker]="picker" placeholder="Date of birth" formControlName="dob"
+        (dateChange)="date($event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+     </mat-form-field>
 
       <!-- Class -->
       <mat-form-field>
         <mat-label>Grade</mat-label>
         <mat-select [(value)]="selected" formControlName="grade">
-          <mat-option [value]="gradeArray" *ngFor="let gradeArray of GradeArray"> {{gradeArray}} </mat-option>
-        </mat-select>
+          <mat-option [value]="gradeArray" *ngFor="let gradeArray of GradeArray">{{gradeArray}}
+          </mat-option>
+       </mat-select>
       </mat-form-field>
 
       <!-- Add Subject -->
       <mat-form-field class="multiple-items">
         <mat-chip-list #chipList>
-          <mat-chip *ngFor="let subjectsArray of SubjectsArray" [selectable]="selectable" [removable]="removable" (removed)="remove()subjectsArray">{{ subjectsArray.name }}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input placeholder="Add subjects" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeyCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+           <mat-chip *ngFor="let subjectsArray of SubjectsArray" [selectable]="selectable" [removable]="removable"
+           (removed)="remove(subjectsArray)">
+           {{subjectsArray.name}}
+           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+           </mat-chip>
+           <input placeholder="Add subjects" [matChipInputFor]="chipList"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+           (matChipInputTokenEnd)="add($event)">
         </mat-chip-list>
-      </mat-form-field>
+     </mat-form-field>
 
       <!-- Submit -->
       <div class="button-wrapper">
